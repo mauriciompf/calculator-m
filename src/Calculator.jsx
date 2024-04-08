@@ -2,27 +2,45 @@ import { useState } from "react";
 import "./Calculator.css";
 
 export default function Calculator() {
-  const [inputValue, setInputValue] = useState(null);
-  const [inputValue2, setInputValue2] = useState(null);
-  const [result, setResult] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [inputValue2, setInputValue2] = useState("");
+  const [result, setResult] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showResult, setShowResult] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   function changeInputOne(e) {
-    e.preventDefault();
-    setInputValue(e.target.value);
+    const value = e.target.value.replace(/[^0-9.]/g, "");
+
+    setInputValue(value);
   }
 
   function changeInputTwo(e) {
-    e.preventDefault();
-    setInputValue2(e.target.value);
+    const value = e.target.value.replace(/[^0-9.]/g, "");
+
+    setInputValue2(value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    setInputValue(null);
-    setInputValue2(null);
+    const inputOne = parseFloat(inputValue);
+    const inputTwo = parseFloat(inputValue2);
 
-    setResult(parseInt(inputValue) + parseInt(inputValue2));
+    if (isNaN(inputOne) || isNaN(inputTwo)) {
+      setErrorMessage("Please enter valid numbers");
+      setShowErrorMessage(true);
+      setShowResult(false);
+      return;
+    }
+
+    setErrorMessage("");
+
+    const res = inputOne + inputTwo;
+
+    setResult(res);
+    setShowResult(true);
+    setShowErrorMessage(false);
   }
 
   return (
@@ -39,6 +57,7 @@ export default function Calculator() {
             onChange={changeInputOne}
             value={inputValue}
             name="nn1"
+            placeholder="0"
             id="nn1"
           />
         </div>
@@ -49,8 +68,9 @@ export default function Calculator() {
           </label>
           <input
             type="text"
-            value={inputValue2}
+            placeholder="0"
             onChange={changeInputTwo}
+            value={inputValue2}
             name="nn2"
             id="nn2"
           />
@@ -60,7 +80,10 @@ export default function Calculator() {
           Sum
         </button>
       </form>
-      <strong>Result:</strong> {result}
+
+      {showResult ? <strong>Result:</strong> : null}
+      {showResult && <span> {result}</span>}
+      {showErrorMessage ? <strong> {errorMessage}</strong> : null}
     </main>
   );
 }
