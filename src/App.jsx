@@ -1,10 +1,10 @@
-import Calculator from "./Calculator";
+import Aritmetic from "./Aritmetic";
 import "./app.css";
 
 export default function App() {
   return (
     <>
-      <Calculator />
+      <Aritmetic />
     </>
   );
 }

@@ -14,3 +14,7 @@ input {
 label {
   user-select: none;
 }
+
+.simple-calculator {
+  display: flex;
+}
