@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./Calculator.css";
 
 export default function Calculator() {
-  // const [showNumber, setShowNumber] = useState("");
   const [items, setItems] = useState([]);
 
   let lastAddedItem = items[items.length - 1];
@@ -25,14 +24,10 @@ export default function Calculator() {
   }
 
   function handleNumberClick(number) {
-    // setShowNumber((prevState) => String(prevState) + String(number));
-
-    setItems((prevState) => [...prevState, [number]]);
+    setItems((prevState) => [...prevState, number]);
   }
 
   function handlePlusClick() {
-    // setItems((prevState) => prevState + "+");
-
     if (items.length > 0) {
       if (lastAddedItem !== plusIcon) {
         setItems((prevState) => [...prevState, plusIcon]);
@@ -42,20 +37,6 @@ export default function Calculator() {
         items.pop();
       }
     }
-
-    // if (items.length > 0 && items[items.length - 1] !== plusIcon) {
-    //   setItems((prevState) => [...prevState, plusIcon]);
-    // }
-
-    // if (lastAddedItem === " - ") {
-    //   items.pop();
-    //   // setItems((prevState) => [...prevState, "+"]);
-    // }
-
-    // setShowNumber((prevState) => prevState + "+");
-    // if (showNumber[showNumber.length - 1] === "-") {
-    //   setShowNumber((prevState) => (prevState = "+"));
-    // }
   }
 
   function handleMinusClick() {
@@ -68,23 +49,19 @@ export default function Calculator() {
         items.pop();
       }
     }
-
-    // if (items.length > 0 && items[items.length - 1] !== minusIcon) {
-    //   setItems((prevState) => [...prevState, minusIcon]);
-    // }
-
-    // if (items[items.length - 1] === plusIcon) {
-    //   items.pop();
-    // }
-
-    // setShowNumber((prevState) => prevState + "-");
   }
 
   function handleResultClick() {
-    // console.log(showNumber[showNumber.length - 1]);
-    // console.log(showNumber.lastIndexOf(" + "));
+    // Tranform all items into a unique string and split between the plus icon into string elements
+    const numbersStr = items.join("").split(plusIcon);
 
-    console.log(items);
+    // Convert all strings elements into numbers types
+    const numbersFloat = numbersStr.map((str) => parseFloat(str));
+
+    // Sum all the numbers
+    const resultSum = numbersFloat.reduce((acc, cur) => acc + cur, 0);
+
+    setItems(resultSum);
   }
 
   return (
