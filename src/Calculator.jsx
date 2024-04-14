@@ -52,16 +52,44 @@ export default function Calculator() {
   }
 
   function handleResultClick() {
-    // Tranform all items into a unique string and split between the plus icon into string elements
-    const numbersStr = items.join("").split(plusIcon);
+    setItems([handleResult()]);
+
+    console.log(handleResult());
+  }
+
+  function handleResult() {
+    let numbersStr = "";
+
+    if (items.join("").includes(plusIcon)) {
+      // Tranform all items into a unique string and split between the icon into string elements
+      numbersStr = items.join("").split(plusIcon);
+    }
+
+    if (items.join("").includes(minusIcon)) {
+      // Tranform all items into a unique string and split between the icon into string elements
+      numbersStr = items.join("").split(minusIcon);
+    }
 
     // Convert all strings elements into numbers types
     const numbersFloat = numbersStr.map((str) => parseFloat(str));
+    console.log(numbersFloat);
 
     // Sum all the numbers
-    const resultSum = numbersFloat.reduce((acc, cur) => acc + cur, 0);
+    const sum = numbersFloat.reduce((acc, cur) => acc + cur, 0);
+    const minus = numbersFloat.reduce((acc, cur) => acc - cur);
+    let result = 0;
 
-    setItems(resultSum);
+    if (items.length > 0) {
+      if (items.join("").includes(plusIcon)) {
+        result = sum;
+      }
+
+      if (items.join("").includes(minusIcon)) {
+        result = minus;
+      }
+    }
+
+    return result;
   }
 
   return (
