@@ -9,14 +9,16 @@ export default function Operation({ type }) {
   const [showResult, setShowResult] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
+  const digitRegEx = /[^-0-9.]/g;
+
   function changeInputOne(e) {
-    const value = e.target.value.replace(/[^0-9.]/g, "");
+    const value = e.target.value.replace(digitRegEx, "");
 
     setInputValue(value);
   }
 
   function changeInputTwo(e) {
-    const value = e.target.value.replace(/[^0-9.]/g, "");
+    const value = e.target.value.replace(digitRegEx, "");
 
     setInputValue2(value);
   }

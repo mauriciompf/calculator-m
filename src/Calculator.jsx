@@ -6,15 +6,12 @@ export default function Calculator() {
 
   let lastAddedItem = items[items.length - 1];
   const plusIcon = " + ";
-  const minusIcon = " - ";
+  let minusIcon = " - ";
 
   function CreateNumbers({ onClick }) {
-    let a = [];
-    for (let i = 0; i < 10; i++) {
-      a.push(i);
-    }
+    let digitNumber = [7, 8, 9, 4, 5, 6, 3, 2, 1, 0];
 
-    return a.map((item) => {
+    return digitNumber.map((item) => {
       return (
         <button key={item} onClick={() => onClick(item)}>
           {item}
@@ -37,13 +34,21 @@ export default function Calculator() {
     if (lastAddedItem === minusIcon) {
       items.pop();
     }
+
+    if (lastAddedItem === "-") {
+      items.pop();
+    }
   }
 
   function handleMinusClick() {
-    if (items.length === 0) return;
+    if (items.length === 0) {
+      minusIcon = "-";
+    }
 
-    if (lastAddedItem !== minusIcon) {
-      setItems((prevState) => [...prevState, minusIcon]);
+    if (lastAddedItem !== "-") {
+      if (lastAddedItem !== minusIcon) {
+        setItems((prevState) => [...prevState, minusIcon]);
+      }
     }
 
     if (lastAddedItem === plusIcon) {
@@ -53,6 +58,11 @@ export default function Calculator() {
 
   function handleResultClick() {
     console.log(items);
+
+    if (items[0] === plusIcon) {
+      items.shift();
+    }
+
     // Check if icon exist
 
     const containsPlusIcon = items.some((e) => e === plusIcon);
@@ -98,10 +108,23 @@ export default function Calculator() {
           <strong>{items}</strong>
         </div>
         <div className="btn-wrapper">
-          <CreateNumbers onClick={handleNumberClick} />
-          <button onClick={handlePlusClick}>+</button>
-          <button onClick={handleMinusClick}>-</button>
-          <button onClick={handleResultClick}>=</button>
+          <div>
+            <button>AC</button>
+            <button>()</button>
+            <button>%</button>
+            <button>/</button>
+          </div>
+          <div>
+            <CreateNumbers onClick={handleNumberClick} />
+            <button>.</button>
+            <button> &lt; </button>
+          </div>
+          <div className="">
+            <button>x</button>
+            <button onClick={handlePlusClick}>+</button>
+            <button onClick={handleMinusClick}>-</button>
+            <button onClick={handleResultClick}>=</button>
+          </div>
         </div>
       </div>
     </>

@@ -27,8 +27,22 @@ label {
 
 .btn-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* grid-template-columns: repeat(3, 1fr); */
   /* grid-template-columns: repeat(auto-fit, minmax(1fr, 100px)); */
+}
+
+.top {
+  /* grid-row: 1; */
+}
+
+.col-digit {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.col-4 {
+  display: grid;
+  grid-column: 2;
 }
 
 .calculator-wrapper {
