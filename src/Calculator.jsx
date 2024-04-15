@@ -28,68 +28,64 @@ export default function Calculator() {
   }
 
   function handlePlusClick() {
-    if (items.length > 0) {
-      if (lastAddedItem !== plusIcon) {
-        setItems((prevState) => [...prevState, plusIcon]);
-      }
+    if (items.length === 0) return;
 
-      if (lastAddedItem === minusIcon) {
-        items.pop();
-      }
+    if (lastAddedItem !== plusIcon) {
+      setItems((prevState) => [...prevState, plusIcon]);
+    }
+
+    if (lastAddedItem === minusIcon) {
+      items.pop();
     }
   }
 
   function handleMinusClick() {
-    if (items.length > 0) {
-      if (lastAddedItem !== minusIcon) {
-        setItems((prevState) => [...prevState, minusIcon]);
-      }
+    if (items.length === 0) return;
 
-      if (lastAddedItem === plusIcon) {
-        items.pop();
-      }
+    if (lastAddedItem !== minusIcon) {
+      setItems((prevState) => [...prevState, minusIcon]);
+    }
+
+    if (lastAddedItem === plusIcon) {
+      items.pop();
     }
   }
 
   function handleResultClick() {
-    setItems([handleResult()]);
+    console.log(items);
+    // Check if icon exist
 
-    console.log(handleResult());
-  }
-
-  function handleResult() {
-    let numbersStr = "";
-
-    if (items.join("").includes(plusIcon)) {
-      // Tranform all items into a unique string and split between the icon into string elements
-      numbersStr = items.join("").split(plusIcon);
-    }
-
-    if (items.join("").includes(minusIcon)) {
-      // Tranform all items into a unique string and split between the icon into string elements
-      numbersStr = items.join("").split(minusIcon);
-    }
+    const containsPlusIcon = items.some((e) => e === plusIcon);
+    const containsMinusIcon = items.some((e) => e === minusIcon);
 
     // Convert all strings elements into numbers types
-    const numbersFloat = numbersStr.map((str) => parseFloat(str));
-    console.log(numbersFloat);
 
-    // Sum all the numbers
-    const sum = numbersFloat.reduce((acc, cur) => acc + cur, 0);
-    const minus = numbersFloat.reduce((acc, cur) => acc - cur);
-    let result = 0;
+    let numbers = [];
+    const itemsString = items.join("");
 
-    if (items.length > 0) {
-      if (items.join("").includes(plusIcon)) {
-        result = sum;
-      }
-
-      if (items.join("").includes(minusIcon)) {
-        result = minus;
-      }
+    if (containsPlusIcon) {
+      numbers = itemsString.split(plusIcon).map((str) => parseFloat(str));
     }
 
-    return result;
+    if (containsMinusIcon) {
+      numbers = itemsString.split(minusIcon).map((str) => parseFloat(str));
+    }
+
+    if (numbers.length === 0) return;
+
+    if (lastAddedItem !== plusIcon && lastAddedItem !== minusIcon) {
+      // Sum the numbers
+      const sum = numbers.reduce((acc, cur) => acc + cur, 0);
+
+      // Diff the numbers
+      const diff = numbers.reduce((acc, cur) => acc - cur);
+
+      if (containsPlusIcon) {
+        setItems([sum]);
+      } else if (containsMinusIcon) {
+        setItems([diff]);
+      }
+    }
   }
 
   return (
