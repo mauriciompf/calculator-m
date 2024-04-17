@@ -31,9 +31,10 @@ export default function Calculator() {
       items.length === 0 ||
       lastAddedItem === "-" ||
       lastAddedItem === plusIcon
-    )
+    ) {
       items.pop();
-    return;
+      return;
+    }
 
     if (lastAddedItem === minusIcon || lastAddedItem === productIcon) {
       items.pop();
