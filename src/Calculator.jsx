@@ -36,7 +36,11 @@ export default function Calculator() {
       return;
     }
 
-    if (lastAddedItem === minusIcon || lastAddedItem === productIcon) {
+    if (
+      lastAddedItem === minusIcon ||
+      lastAddedItem === productIcon ||
+      lastAddedItem === divideIcon
+    ) {
       items.pop();
     }
 
@@ -47,7 +51,8 @@ export default function Calculator() {
     if (
       items.length === 0 ||
       lastAddedItem === productIcon ||
-      lastAddedItem === "-"
+      lastAddedItem === "-" ||
+      lastAddedItem === divideIcon
     ) {
       minusIcon = "-";
     }
@@ -64,7 +69,11 @@ export default function Calculator() {
   function handleProductClick() {
     if (items.length === 0 || lastAddedItem === productIcon) return;
 
-    if (lastAddedItem === plusIcon || lastAddedItem === minusIcon) {
+    if (
+      lastAddedItem === plusIcon ||
+      lastAddedItem === minusIcon ||
+      lastAddedItem === divideIcon
+    ) {
       items.pop();
     } else if (lastAddedItem === "-") {
       items.pop();
@@ -74,24 +83,25 @@ export default function Calculator() {
     setItems((prevState) => [...prevState, productIcon]);
   }
 
+  function handleDivideClick() {
+    if (items.length === 0 || lastAddedItem === divideIcon) return;
+
+    if (
+      lastAddedItem === plusIcon ||
+      lastAddedItem === minusIcon ||
+      lastAddedItem === productIcon
+    ) {
+      items.pop();
+    } else if (lastAddedItem === "-") {
+      items.pop();
+      items.pop();
+    }
+
+    setItems((prevState) => [...prevState, divideIcon]);
+  }
+
   function handleResultClick() {
     console.log(items);
-
-    // const firstIconIndex = items.findIndex((item) =>
-    //   [plusIcon, minusIcon, productIcon].includes(item)
-    // );
-
-    // if (firstIconIndex !== -1) {
-    //   items.slice(firstIconIndex, 1);
-    // }
-
-    // if (items[0] === plusIcon) {
-    //   items.shift();
-    // }
-
-    // if (items[0] === productIcon) {
-    //   items.shift();
-    // }
 
     if (lastAddedItem === "-") return;
 
@@ -99,6 +109,7 @@ export default function Calculator() {
     const containsPlusIcon = items.includes(plusIcon);
     const containsMinusIcon = items.includes(minusIcon);
     const containsProductIcon = items.includes(productIcon);
+    const containsDivideIcon = items.includes(divideIcon);
 
     // Convert all strings elements into numbers types
     const itemsString = items.join("");
@@ -110,6 +121,8 @@ export default function Calculator() {
       numbers = itemsString.split(minusIcon).map((str) => parseFloat(str));
     } else if (containsProductIcon) {
       numbers = itemsString.split(productIcon).map((str) => parseFloat(str));
+    } else if (containsDivideIcon) {
+      numbers = itemsString.split(divideIcon).map((str) => parseFloat(str));
     }
 
     if (numbers.length === 0) return;
@@ -117,11 +130,13 @@ export default function Calculator() {
     const sum = numbers.reduce((acc, cur) => acc + cur, 0);
     const diff = numbers.reduce((acc, cur) => acc - cur);
     const product = numbers.reduce((acc, cur) => acc * cur);
+    const divide = numbers.reduce((acc, cur) => acc / cur);
 
     if (
       lastAddedItem !== plusIcon &&
       lastAddedItem !== minusIcon &&
-      lastAddedItem !== productIcon
+      lastAddedItem !== productIcon &&
+      lastAddedItem !== divide
     ) {
       if (containsPlusIcon) {
         setItems([sum]);
@@ -129,6 +144,8 @@ export default function Calculator() {
         setItems([diff]);
       } else if (containsProductIcon) {
         setItems([product]);
+      } else if (containsDivideIcon) {
+        setItems([divide]);
       }
     }
   }
@@ -147,7 +164,7 @@ export default function Calculator() {
             <button>AC</button>
             <button>()</button>
             <button>%</button>
-            <button>/</button>
+            <button onClick={handleDivideClick}>/</button>
           </div>
           <div className="col-digit">
             <CreateNumbers onClick={handleNumberClick} />
