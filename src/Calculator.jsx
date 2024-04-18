@@ -101,8 +101,6 @@ export default function Calculator() {
   }
 
   function handleResultClick() {
-    console.log(items);
-
     if (lastAddedItem === "-") return;
 
     // Check if icon exist
@@ -148,6 +146,33 @@ export default function Calculator() {
         setItems([divide]);
       }
     }
+
+    console.log(items);
+
+    // let b = [];
+    // for (let i = items.indexOf(plusIcon) - 1; i >= 0; i--) {
+    //   b.push(items[i]);
+    // }
+
+    console.log(items.join("").split(plusIcon));
+
+    // console.log(b);
+  }
+
+  function handleBackClick() {
+    items.pop();
+    setItems((prevState) => [...prevState]);
+  }
+
+  function handlePointClick() {
+    if (lastAddedItem === ".") return;
+
+    // if (!(items.filter((elem) => elem === ".").length > 0)) {
+    setItems((prevState) => [...prevState, "."]);
+    // }
+
+    // 5.5.5.5.6.5
+    // 5.53 + 5(.)32
   }
 
   return (
@@ -168,8 +193,8 @@ export default function Calculator() {
           </div>
           <div className="col-digit">
             <CreateNumbers onClick={handleNumberClick} />
-            <button>.</button>
-            <button> &lt; </button>
+            <button onClick={handlePointClick}>.</button>
+            <button onClick={handleBackClick}>{"<"}</button>
           </div>
           <div className="col-4">
             <button onClick={handleProductClick}>x</button>
