@@ -146,17 +146,7 @@ export default function Calculator() {
         setItems([divide]);
       }
     }
-
     console.log(items);
-
-    // let b = [];
-    // for (let i = items.indexOf(plusIcon) - 1; i >= 0; i--) {
-    //   b.push(items[i]);
-    // }
-
-    console.log(items.join("").split(plusIcon));
-
-    // console.log(b);
   }
 
   function handleBackClick() {
@@ -167,12 +157,20 @@ export default function Calculator() {
   function handlePointClick() {
     if (lastAddedItem === ".") return;
 
-    // if (!(items.filter((elem) => elem === ".").length > 0)) {
-    setItems((prevState) => [...prevState, "."]);
-    // }
+    const lastOperatorIndex = Math.max(
+      items.lastIndexOf(plusIcon),
+      items.lastIndexOf(minusIcon),
+      items.lastIndexOf(productIcon),
+      items.lastIndexOf(divideIcon)
+    );
 
-    // 5.5.5.5.6.5
-    // 5.53 + 5(.)32
+    const currentNumber = items.slice(lastOperatorIndex + 1).join("");
+
+    if (currentNumber.includes(".")) {
+      return;
+    }
+
+    setItems((prevState) => [...prevState, "."]);
   }
 
   return (
