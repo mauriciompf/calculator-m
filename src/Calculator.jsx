@@ -101,6 +101,8 @@ export default function Calculator() {
   }
 
   function handleResultClick() {
+    // console.log(items);
+
     if (lastAddedItem === "-") return;
 
     // Check if icon exist
@@ -130,6 +132,7 @@ export default function Calculator() {
     const product = numbers.reduce((acc, cur) => acc * cur);
     const divide = numbers.reduce((acc, cur) => acc / cur);
 
+    // The last item is can't be an operator
     if (
       lastAddedItem !== plusIcon &&
       lastAddedItem !== minusIcon &&
@@ -146,7 +149,6 @@ export default function Calculator() {
         setItems([divide]);
       }
     }
-    console.log(items);
   }
 
   function handleBackClick() {
@@ -173,6 +175,10 @@ export default function Calculator() {
     setItems((prevState) => [...prevState, "."]);
   }
 
+  function handleAllClearClick() {
+    setItems([]);
+  }
+
   return (
     <>
       <h1>Calculator</h1>
@@ -184,7 +190,7 @@ export default function Calculator() {
         </div>
         <div className="btn-wrapper">
           <div className="top">
-            <button>AC</button>
+            <button onClick={handleAllClearClick}>AC</button>
             <button>()</button>
             <button>%</button>
             <button onClick={handleDivideClick}>/</button>

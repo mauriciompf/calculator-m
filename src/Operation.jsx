@@ -14,11 +14,29 @@ export default function Operation({ type }) {
   function changeInputOne(e) {
     const value = e.target.value.replace(digitRegEx, "");
 
+    const counter = value.split("").reduce((total, letter) => {
+      total[letter] ? total[letter]++ : (total[letter] = 1);
+      return total;
+    }, {});
+
+    if (counter["."] > 1) {
+      return;
+    }
+
     setInputValue(value);
   }
 
   function changeInputTwo(e) {
     const value = e.target.value.replace(digitRegEx, "");
+
+    const counter = value.split("").reduce((total, letter) => {
+      total[letter] ? total[letter]++ : (total[letter] = 1);
+      return total;
+    }, {});
+
+    if (counter["."] > 1) {
+      return;
+    }
 
     setInputValue2(value);
   }
@@ -28,6 +46,7 @@ export default function Operation({ type }) {
 
     const inputOne = parseFloat(inputValue);
     const inputTwo = parseFloat(inputValue2);
+    // console.log(inputOne, inputTwo);
 
     if (isNaN(inputOne) || isNaN(inputTwo)) {
       setErrorMessage("Please enter valid numbers");
