@@ -22,6 +22,8 @@ export default function Calculator() {
     });
   }
 
+  // console.log(items);
+
   function handleNumberClick(number) {
     setItems((prevState) => [...prevState, number]);
   }
@@ -101,8 +103,6 @@ export default function Calculator() {
   }
 
   function handleResultClick() {
-    // console.log(items);
-
     if (lastAddedItem === "-") return;
 
     // Check if icon exist
@@ -186,7 +186,17 @@ export default function Calculator() {
         {/* <input type="text" /> */}
         <div className="calculator-header">
           {/* <strong>{showNumber}</strong> */}
-          <strong>{items}</strong>
+          <strong>
+            {/* {items} */}
+            {!items.includes(".")
+              ? items
+                  .join("")
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              : items}
+            {/* {items.toLocaleString("en-US")} */}
+            {/* {console.log(parseFloat(items.join("")).toLocaleString())} */}
+          </strong>
         </div>
         <div className="btn-wrapper">
           <div className="top">
