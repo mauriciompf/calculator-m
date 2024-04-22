@@ -179,24 +179,20 @@ export default function Calculator() {
     setItems([]);
   }
 
+  function RenderOutput() {
+    const formatedItems = items
+      .join("")
+      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+    return <strong>{formatedItems}</strong>;
+  }
+
   return (
     <>
       <h1>Calculator</h1>
       <div className="calculator-wrapper">
-        {/* <input type="text" /> */}
         <div className="calculator-header">
-          {/* <strong>{showNumber}</strong> */}
-          <strong>
-            {/* {items} */}
-            {!items.includes(".")
-              ? items
-                  .join("")
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              : items}
-            {/* {items.toLocaleString("en-US")} */}
-            {/* {console.log(parseFloat(items.join("")).toLocaleString())} */}
-          </strong>
+          <RenderOutput />
         </div>
         <div className="btn-wrapper">
           <div className="top">
