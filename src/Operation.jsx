@@ -14,6 +14,7 @@ export default function Operation({ type }) {
   function changeInputOne(e) {
     const value = e.target.value.replace(digitRegEx, "");
 
+    // prevent add more than one "."
     const counter = value.split("").reduce((total, letter) => {
       total[letter] ? total[letter]++ : (total[letter] = 1);
       return total;
@@ -29,6 +30,7 @@ export default function Operation({ type }) {
   function changeInputTwo(e) {
     const value = e.target.value.replace(digitRegEx, "");
 
+    // prevent add more than one "."
     const counter = value.split("").reduce((total, letter) => {
       total[letter] ? total[letter]++ : (total[letter] = 1);
       return total;
@@ -93,7 +95,7 @@ export default function Operation({ type }) {
         operationName = "Product";
         break;
       case "Division":
-        operationName = "division";
+        operationName = "Division";
         break;
     }
 
