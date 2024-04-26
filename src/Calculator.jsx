@@ -33,6 +33,9 @@ export default function Calculator() {
     divide: " / ",
   };
 
+  // Convert obj values to an array
+  const iconsArray = Object.keys(icons).map((value) => icons[value]);
+
   function addItem(item) {
     setErrorMessage("");
     setItems((prevState) => [...prevState, item]);
@@ -40,9 +43,6 @@ export default function Calculator() {
 
   function handleOperationClick(operation) {
     const lastItem = getLastAddedItem();
-
-    // Convert obj values to an array
-    const iconsArray = Object.keys(icons).map((value) => icons[value]);
 
     // if (items.length === 0) return;
 
@@ -63,15 +63,15 @@ export default function Calculator() {
 
     if (lastItem === ".") return;
 
-    const lastOperatorIndex = Math.max(
-      items.lastIndexOf(icons.plus),
-      items.lastIndexOf(icons.minus),
-      items.lastIndexOf(icons.product),
-      items.lastIndexOf(icons.divide)
-    );
+    // determine the last operator index in items (expression)
+    const lastOperatorIndex = iconsArray
+      .map((operator) => items.lastIndexOf(operator))
+      .reduce((maxIndex, currIndex) => Math.max(maxIndex, currIndex), -1);
 
+    // identify the current number based on the last operator index
     const currentNumber = items.slice(lastOperatorIndex + 1).join("");
 
+    // prevent add again the "point" in the current number (before or after a operator)
     if (currentNumber.includes(".")) return;
 
     addItem(".");
@@ -104,11 +104,6 @@ export default function Calculator() {
 
   function handleResultClick() {
     const expression = getExpression();
-
-    // if (!expression) {
-    //   console.error("Error: empty expression");
-    //   return;
-    // }
 
     const safeExpression = expression
       .replace(/\s+/g, "")
