@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { evaluate } from "mathjs";
+import { add, evaluate } from "mathjs";
 import "./Calculator.css";
 
 export default function Calculator() {
@@ -44,11 +44,17 @@ export default function Calculator() {
   function handleOperationClick(operation) {
     const lastItem = getLastAddedItem();
 
-    // if (items.length === 0) return;
+    if (items.length === 0) return;
 
     // Removing the same operation and replace diff operation
     if (lastItem === icons[operation] || iconsArray.includes(lastItem)) {
       setItems((prevState) => prevState.slice(0, -1));
+    }
+
+    if (lastItem === " ( ") {
+      if (icons[operation] !== icons.minus) {
+        return;
+      }
     }
 
     addItem(icons[operation]);
@@ -88,27 +94,50 @@ export default function Calculator() {
   }
 
   function handleParenthesesClicK() {
-    const openCount = items.filter((item) => item === "(").length;
-    const closeCount = items.filter((item) => item === ")").length;
-
+    const openCount = items.filter((item) => item === " ( ").length;
+    const closeCount = items.filter((item) => item === " ) ").length;
     const lastItem = getLastAddedItem();
 
-    if (openCount === closeCount) {
-      addItem("(");
-    } else if (openCount > closeCount) {
-      if (lastItem !== "(" && !(lastItem in icons)) {
-        addItem(")");
-      }
+    const regex = new RegExp("[+\\-x/]", "g");
+
+    // add close parentheses if openCount is greater than closeCount (balance parentheses) and the last item is not a operator
+    if (openCount > closeCount && !regex.test(lastItem)) {
+      addItem(" ) ");
+      return;
     }
+
+    addItem(" ( ");
+  }
+
+  function handlePercentageClick() {
+    const lastItem = getLastAddedItem();
+
+    if (items.length === 0 || lastItem === " % " || lastItem === " ( ") return;
+
+    addItem(" % ");
   }
 
   function handleResultClick() {
     const expression = getExpression();
 
-    const safeExpression = expression
-      .replace(/\s+/g, "")
-      .replace(/x/g, "*")
-      .replace(/\/\s*\0+/g, "/0");
+    let safeExpression = expression
+      // .replace(/\s+/g, "")
+      .replace(/x/g, "*"); // replace 'x' with '*'
+
+    let openCount = (safeExpression.match(/\(/g) || []).length;
+    let closeCount = (safeExpression.match(/\)/g) || []).length;
+
+    // Balance the expression if one is missing
+    while (openCount > closeCount) {
+      safeExpression += " ) ";
+      closeCount++;
+    }
+
+    const regex = new RegExp(" % \\d", "g");
+
+    if (regex.test(safeExpression)) {
+      safeExpression += safeExpression.replace(/ % /g, "/ 100 *"); // replace '%' with division and multiplication
+    }
 
     try {
       const result = evaluate(safeExpression);
@@ -116,6 +145,7 @@ export default function Calculator() {
       setErrorMessage("");
       setItems([result]);
 
+      // Handle specific error cases
       if (!expression) {
         setErrorMessage("Error: empty expression");
         throw new Error("Empty expression");
@@ -137,8 +167,6 @@ export default function Calculator() {
       setItems([]);
     }
   }
-
-  // console.log(items);
 
   function RenderOutput() {
     const formatedItems = items
@@ -163,7 +191,7 @@ export default function Calculator() {
           <div className="top">
             <button onClick={handleAllClearClick}>AC</button>
             <button onClick={handleParenthesesClicK}>()</button>
-            <button>%</button>
+            <button onClick={handlePercentageClick}>%</button>
             <button onClick={() => handleOperationClick("divide")}>/</button>
           </div>
           <div className="col-digit">
