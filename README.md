@@ -1,4 +1,4 @@
-# **Calculator Component Documentation**
+# **Calculator**
 
 ## **Introduction**
 
@@ -34,7 +34,7 @@ The Calculator is a web application that creates a calculator interface for perf
 
 ## **Usage**
 
-The user can interact with the calculator using buttons to input numbers and operations. The component handles the input and provides feedback such as displaying results or error messages.
+The user can interact with the calculator using buttons to input numbers and operations. Handles the input and provides feedback such as displaying results or error messages.
 
 ## **Code Structure**
 
