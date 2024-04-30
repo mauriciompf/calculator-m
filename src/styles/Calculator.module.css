@@ -1,13 +1,12 @@
 .wrapper {
-  width: min(300px, 100%);
+  width: min(350px, 100%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: rgb(124, 108, 108);
+  box-shadow: 15px 15px 0px;
 }
 
-.display {
-  text-align: right;
-  display: grid;
-  align-items: center;
-  background-color: var(--header-footer-background-color);
-  color: black;
-  width: min(300px, 100%);
-  aspect-ratio: 1 / 0.2;
+.btn {
+  padding: 1rem;
+  font-size: 2em;
 }

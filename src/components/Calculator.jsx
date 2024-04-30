@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { evaluate } from "mathjs";
+
 import getExpression from "../utils/getExpression";
 import getLastAddedItem from "../utils/getLastAddedItem";
-import Display from "./Display";
+
 import CalculatorButton from "./buttons/CalculatorButton";
 import NumberButton from "./buttons/NumbersButton";
+
+import Display from "./Display";
+
+// CSS MODULES
 import calculator from "../styles/Calculator.module.css";
+import keypad from "../styles/Keypad.module.css";
 
 export default function Calculator({ className }) {
   const [expression, setExpression] = useState([]);
@@ -13,18 +19,15 @@ export default function Calculator({ className }) {
 
   // * Handle Numbers *
 
-  function addItem(item) {
+  const addItem = (item) => {
     setError("");
     setExpression((prevState) => [...prevState, item]);
-  }
+  };
 
-  function handleNumberClick(number) {
-    addItem(number);
-  }
+  const handleNumberClick = (number) => addItem(number);
 
-  function removeLastItem() {
+  const removeLastItem = () =>
     setExpression((prevState) => prevState.slice(0, -1));
-  }
 
   // * Handle Operations *
 
@@ -35,7 +38,7 @@ export default function Calculator({ className }) {
     division: " / ",
   };
 
-  // Convert obj values to an array
+  // convert obj values to an array
   const iconsArray = Object.keys(icons).map((value) => icons[value]);
 
   function handleOperatorClick(operation) {
@@ -163,14 +166,10 @@ export default function Calculator({ className }) {
   return (
     <div className={className}>
       <div className={calculator.wrapper}>
-        <Display
-          expression={expression}
-          errorMessage={error}
-          className={calculator.display}
-        />
+        <Display expression={expression} errorMessage={error} />
 
-        <div className="btn-wrapper">
-          <div className="top">
+        <div className={keypad.wrapper}>
+          <div className={keypad.top}>
             <CalculatorButton onClick={handleClearAll} label={"AC"} />
             <CalculatorButton onClick={handleParenthesesClick} label={"()"} />
             <CalculatorButton onClick={handlePercentageClick} label={"%"} />
@@ -180,7 +179,7 @@ export default function Calculator({ className }) {
             />
           </div>
 
-          <div className="col-digit">
+          <div className={keypad.numbers}>
             <NumberButton
               numbersOrder={[7, 8, 9, 4, 5, 6, 3, 2, 1, 0]}
               onClick={handleNumberClick}
@@ -189,7 +188,7 @@ export default function Calculator({ className }) {
             <CalculatorButton onClick={handleBackspace} label={"<"} />
           </div>
 
-          <div className="col-4">
+          <div className={keypad.right}>
             <CalculatorButton
               onClick={() => handleOperatorClick("multiplication")}
               label={"x"}

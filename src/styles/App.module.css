@@ -1,31 +1,6 @@
 :root {
-  /* Main Background Color */
-  --main-background-color: #f4f4f4;
-
-  /* Header/Footer Background Color */
-  --header-footer-background-color: #333333;
-
-  /* Primary Button Color */
-  --primary-button-color: #ff7f0e;
-
-  /* Secondary Button Color */
-  --secondary-button-color: #4caf50;
-
-  /* Text Color */
-  --text-color: #333333;
-
-  /* Accent Color */
-  --accent-color: #007bff;
-
-  /* Calculator Input Field Color */
-  --input-field-color: #ffffff;
-
-  /* Calculator Output Field Color */
-  --output-field-color: #d9d9d9;
-}
-
-.backgroundColor {
-  background-color: var(--main-background-color);
+  --primary-white: #f4f4f4;
+  --primary-black: #474747;
 }
 
 .calculator {

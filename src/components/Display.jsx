@@ -1,17 +1,19 @@
 import getExpression from "../utils/getExpression";
 
-export default function Display({ expression, errorMessage, className }) {
+import display from "../styles/Display.module.css";
+
+export default function Display({ expression, errorMessage }) {
   const formattedExpression = getExpression(expression).replace(
     /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
     ","
   );
 
   return (
-    <div className={className}>
+    <div className={display.wrapper}>
       {errorMessage ? (
-        <strong className="danger">{errorMessage}</strong>
+        <strong className={display.error}>{errorMessage}</strong>
       ) : (
-        <strong>{formattedExpression}</strong>
+        <strong className={display.expression}>{formattedExpression}</strong>
       )}
     </div>
   );
