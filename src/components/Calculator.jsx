@@ -1,18 +1,15 @@
 import { useState } from "react";
 import { evaluate } from "mathjs";
-import "../styles/Calculator.css";
+import getExpression from "../utils/getExpression";
+import getLastAddedItem from "../utils/getLastAddedItem";
+import Display from "./Display";
+import CalculatorButton from "./buttons/CalculatorButton";
+import NumberButton from "./buttons/NumbersButton";
+import calculator from "../styles/Calculator.module.css";
 
-export default function Calculator() {
+export default function Calculator({ className }) {
   const [expression, setExpression] = useState([]);
   const [error, setError] = useState("");
-
-  function getLastAddedItem() {
-    return expression[expression.length - 1];
-  }
-
-  function getExpression() {
-    return expression.join("");
-  }
 
   // * Handle Numbers *
 
@@ -32,17 +29,17 @@ export default function Calculator() {
   // * Handle Operations *
 
   const icons = {
-    plus: " + ",
-    minus: " - ",
-    product: " x ",
-    divide: " / ",
+    addition: " + ",
+    subtraction: " - ",
+    multiplication: " x ",
+    division: " / ",
   };
 
   // Convert obj values to an array
   const iconsArray = Object.keys(icons).map((value) => icons[value]);
 
   function handleOperatorClick(operation) {
-    const lastItem = getLastAddedItem();
+    const lastItem = getLastAddedItem(expression);
 
     // remove if is the same operation (and replace to a new one if click in another operator)
     if (lastItem === icons[operation] || iconsArray.includes(lastItem)) {
@@ -52,7 +49,7 @@ export default function Calculator() {
     // allow only " - " operator after a open parentheses " ( "
     if (
       expression.length === 0 ||
-      (lastItem === " ( " && icons[operation] !== icons.minus)
+      (lastItem === " ( " && icons[operation] !== icons.subtraction)
     ) {
       return;
     }
@@ -61,7 +58,7 @@ export default function Calculator() {
   }
 
   function handlePointClick() {
-    const lastItem = getLastAddedItem();
+    const lastItem = getLastAddedItem(expression);
 
     // determine the last operator index in expression (expression)
     const lastOperatorIndex = iconsArray
@@ -80,7 +77,7 @@ export default function Calculator() {
   function handleParenthesesClick() {
     const openCount = expression.filter((item) => item === " ( ").length;
     const closeCount = expression.filter((item) => item === " ) ").length;
-    const lastItem = getLastAddedItem();
+    const lastItem = getLastAddedItem(expression);
 
     // add close parentheses if openCount is greater than closeCount (balance parentheses) and the last item is not a operator
     const regex = new RegExp("[+\\-x/]", "g");
@@ -93,7 +90,7 @@ export default function Calculator() {
   }
 
   function handlePercentageClick() {
-    const lastItem = getLastAddedItem();
+    const lastItem = getLastAddedItem(expression);
 
     if (expression.length === 0 || lastItem === " % " || lastItem === " ( ")
       return;
@@ -117,7 +114,7 @@ export default function Calculator() {
 
   async function handleResultClick() {
     try {
-      const expressionString = getExpression();
+      const expressionString = getExpression(expression);
       let safeExpression = expressionString.replace(/x/g, "*"); // replace 'x' with '*'
 
       // balance the expression if one is missing
@@ -163,47 +160,14 @@ export default function Calculator() {
     }
   }
 
-  // * Components *
-
-  function NumberButton({ onClick, numbersOrder }) {
-    return numbersOrder.map((item) => {
-      return (
-        <button key={item} onClick={() => onClick(item)}>
-          {item}
-        </button>
-      );
-    });
-  }
-
-  function CalculatorButton({ label, onClick, className }) {
-    return (
-      <button onClick={onClick} className={className}>
-        {label}
-      </button>
-    );
-  }
-
-  function RenderOutput() {
-    const formattedExpression = getExpression().replace(
-      /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
-      ","
-    );
-
-    return error ? (
-      <strong className="danger">{error}</strong>
-    ) : (
-      <strong>{formattedExpression}</strong>
-    );
-  }
-
   return (
-    <>
-      <h1>Calculator</h1>
-      <div className="calculator-wrapper">
-        <div className="calculator-header">
-          {/* Display output */}
-          <RenderOutput />
-        </div>
+    <div className={className}>
+      <div className={calculator.wrapper}>
+        <Display
+          expression={expression}
+          errorMessage={error}
+          className={calculator.display}
+        />
 
         <div className="btn-wrapper">
           <div className="top">
@@ -211,7 +175,7 @@ export default function Calculator() {
             <CalculatorButton onClick={handleParenthesesClick} label={"()"} />
             <CalculatorButton onClick={handlePercentageClick} label={"%"} />
             <CalculatorButton
-              onClick={() => handleOperatorClick("divide")}
+              onClick={() => handleOperatorClick("division")}
               label={"/"}
             />
           </div>
@@ -227,21 +191,21 @@ export default function Calculator() {
 
           <div className="col-4">
             <CalculatorButton
-              onClick={() => handleOperatorClick("product")}
+              onClick={() => handleOperatorClick("multiplication")}
               label={"x"}
             />
             <CalculatorButton
-              onClick={() => handleOperatorClick("plus")}
+              onClick={() => handleOperatorClick("addition")}
               label={"+"}
             />
             <CalculatorButton
-              onClick={() => handleOperatorClick("minus")}
+              onClick={() => handleOperatorClick("subtraction")}
               label={"-"}
             />
             <CalculatorButton onClick={handleResultClick} label={"="} />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
