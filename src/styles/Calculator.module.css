@@ -1,0 +1,13 @@
+.wrapper {
+  width: min(300px, 100%);
+}
+
+.display {
+  text-align: right;
+  display: grid;
+  align-items: center;
+  background-color: var(--header-footer-background-color);
+  color: black;
+  width: min(300px, 100%);
+  aspect-ratio: 1 / 0.2;
+}
