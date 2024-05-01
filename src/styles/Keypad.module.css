@@ -14,6 +14,7 @@
   font-size: 2em;
   border: 1px solid black;
   border-radius: 0.75rem;
+  user-select: none;
 }
 
 .top {
