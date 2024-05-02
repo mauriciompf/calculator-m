@@ -118,9 +118,15 @@ export default function Calculator({ className }) {
   async function handleResultClick() {
     try {
       const expressionString = getExpression(expression);
-      let safeExpression = expressionString.replace(/x/g, "*"); // replace 'x' with '*'
+
+      // Check if expression is empty
+      if (!expressionString) {
+        setError("Error: empty expression");
+        throw new Error("Empty expression");
+      }
 
       // balance the expression if one is missing
+      let safeExpression = expressionString.replace(/x/g, "*"); // replace 'x' with '*'
       let openCount = (safeExpression.match(/\(/g) || []).length;
       let closeCount = (safeExpression.match(/\)/g) || []).length;
       while (openCount > closeCount) {
@@ -134,12 +140,8 @@ export default function Calculator({ className }) {
         safeExpression = safeExpression.replace(/ % /g, "/ 100 *"); // replace '%' with division and multiplication
       }
 
-      // evaluate the expression
+      // Evaluate the expression using mathjs
       const result = await evaluate(safeExpression);
-      if (!expressionString) {
-        setError("Error: empty expression");
-        throw new Error("Empty expression");
-      }
 
       // handle division by zero
       const divideByZeroRegex = /\/\s*0/;
@@ -158,8 +160,12 @@ export default function Calculator({ className }) {
       setError("");
       setExpression([result]);
     } catch (error) {
-      console.error(`Error: ${error.message}`);
-      setExpression([]);
+      if (/Unexpected end of expression/.test(error.message)) {
+        removeLastItem();
+      } else {
+        setExpression([]);
+        console.error(`Error: ${error.message}`);
+      }
     }
   }
 
