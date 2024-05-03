@@ -1,10 +1,14 @@
 :root {
-  --primary-white: #f4f4f4;
-  --primary-black: #474747;
-}
+  --primary-blue: #454e9e;
+  --primary-green: #018e42;
+  --primary-yellow: #f7d002;
 
-.calculator {
-  display: grid;
-  place-items: center;
-  height: 100vh;
+  --gradient-main: linear-gradient(
+    50deg,
+    rgb(67, 62, 109) 0%,
+    rgba(69, 78, 158, 1) 60%
+  );
+
+  --neutral-white: #f4f4f4;
+  --neutral-black: #474747;
 }

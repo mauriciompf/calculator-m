@@ -170,45 +170,43 @@ export default function Calculator({ className }) {
   }
 
   return (
-    <div className={className}>
-      <div className={calculator.wrapper}>
-        <Display expression={expression} errorMessage={error} />
+    <div className={calculator.wrapper}>
+      <Display expression={expression} errorMessage={error} />
 
-        <div className={keypad.wrapper}>
-          <div className={keypad.top}>
-            <CalculatorButton onClick={handleClearAll} label={"AC"} />
-            <CalculatorButton onClick={handleParenthesesClick} label={"()"} />
-            <CalculatorButton onClick={handlePercentageClick} label={"%"} />
-            <CalculatorButton
-              onClick={() => handleOperatorClick("division")}
-              label={"/"}
-            />
-          </div>
+      <div className={keypad.wrapper}>
+        <div className={keypad.top}>
+          <CalculatorButton onClick={handleClearAll} label={"AC"} />
+          <CalculatorButton onClick={handleParenthesesClick} label={"()"} />
+          <CalculatorButton onClick={handlePercentageClick} label={"%"} />
+          <CalculatorButton
+            onClick={() => handleOperatorClick("division")}
+            label={"/"}
+          />
+        </div>
 
-          <div className={keypad.numbers}>
-            <NumberButton
-              numbersOrder={[7, 8, 9, 4, 5, 6, 3, 2, 1, 0]}
-              onClick={handleNumberClick}
-            />
-            <CalculatorButton onClick={handlePointClick} label={"."} />
-            <CalculatorButton onClick={handleBackspace} label={"<"} />
-          </div>
+        <div className={keypad.numbers}>
+          <NumberButton
+            numbersOrder={[7, 8, 9, 4, 5, 6, 3, 2, 1, 0]}
+            onClick={handleNumberClick}
+          />
+          <CalculatorButton onClick={handlePointClick} label={"."} />
+          <CalculatorButton onClick={handleBackspace} label={"<"} />
+        </div>
 
-          <div className={keypad.right}>
-            <CalculatorButton
-              onClick={() => handleOperatorClick("multiplication")}
-              label={"x"}
-            />
-            <CalculatorButton
-              onClick={() => handleOperatorClick("addition")}
-              label={"+"}
-            />
-            <CalculatorButton
-              onClick={() => handleOperatorClick("subtraction")}
-              label={"-"}
-            />
-            <CalculatorButton onClick={handleResultClick} label={"="} />
-          </div>
+        <div className={keypad.right}>
+          <CalculatorButton
+            onClick={() => handleOperatorClick("multiplication")}
+            label={"x"}
+          />
+          <CalculatorButton
+            onClick={() => handleOperatorClick("addition")}
+            label={"+"}
+          />
+          <CalculatorButton
+            onClick={() => handleOperatorClick("subtraction")}
+            label={"-"}
+          />
+          <CalculatorButton onClick={handleResultClick} label={"="} />
         </div>
       </div>
     </div>

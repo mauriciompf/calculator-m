@@ -1,12 +1,15 @@
 .wrapper {
-  width: min(350px, 100%);
+  width: 350px;
   border-radius: 0.5rem;
   padding: 1rem;
-  background-color: rgb(124, 108, 108);
+  background-color: var(--neutral-white);
   box-shadow: 15px 15px 0px;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
-.btn {
-  padding: 1rem;
-  font-size: 2em;
+@media screen and (max-width: 415px) {
+  .wrapper {
+    /* width: 100%; */
+    box-shadow: none;
+  }
 }

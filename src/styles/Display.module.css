@@ -2,8 +2,8 @@
   text-align: right;
   display: grid;
   align-items: center;
-  background-color: var(--primary-black);
-  color: var(--primary-white);
+  background-color: var(--neutral-black);
+  color: var(--neutral-white);
   aspect-ratio: 1 / 0.2;
   margin-block-end: 1rem;
   border-radius: 0.5rem;

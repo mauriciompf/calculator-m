@@ -8,13 +8,20 @@
 }
 
 .btn {
-  padding: 0.3rem;
+  /* padding: 0.3rem; */
   aspect-ratio: 1 / 1;
   font-weight: 700;
-  font-size: 2em;
-  border: 1px solid black;
+  font-size: 1.75em;
+  /* border: 1px solid black; */
   border-radius: 0.75rem;
   user-select: none;
+  box-shadow: 1px 2px 0px;
+  padding-top: 5px;
+  border-bottom: 5px solid var(--neutral-black);
+}
+
+.btn:active {
+  border-bottom: 0px solid transparent;
 }
 
 .top {
@@ -24,16 +31,21 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+.right {
+  gap: 1rem;
+  display: grid;
+  grid-column: 4;
+}
+
+.top .btn,
+.right .btn {
+  background-color: var(--primary-yellow);
+}
+
 .numbers {
   gap: 1rem;
   display: grid;
   grid-column: span 3;
   grid-row: 2;
   grid-template-columns: repeat(3, 1fr);
-}
-
-.right {
-  gap: 1rem;
-  display: grid;
-  grid-column: 4;
 }

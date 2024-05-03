@@ -10,8 +10,16 @@ html {
 }
 
 button {
+  font-family: "League Spartan", sans-serif;
   cursor: pointer;
   display: block;
   border: none;
   background-color: transparent;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-image: var(--gradient-main);
 }
